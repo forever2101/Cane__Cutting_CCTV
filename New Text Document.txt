@@ -1,0 +1,62 @@
+#define SIGN 3
+#define PULS 5
+#define SENSOR1 12
+#define SENSOR2 13
+#define BUTTON 10
+
+int state = HIGH;
+int direct = HIGH;
+
+void setup() {
+  // Declare pins as output:
+  pinMode(PULS, OUTPUT);
+  pinMode(SIGN, OUTPUT);
+  pinMode(SENSOR1, INPUT);
+  pinMode(SENSOR2, INPUT);
+  pinMode(BUTTON, INPUT);
+  Serial.begin (9600);
+  Serial.println("START READING");
+}
+
+void loop() {
+  // if (digitalRead(SENSOR1) == HIGH) {
+  //   state = HIGH;
+  // } else if (digitalRead(SENSOR2) == HIGH)
+  // {
+  //   state = LOW;
+  // }
+
+  if (digitalRead(SENSOR1) == LOW) {
+    state = LOW;
+    direct = LOW;
+    Serial.println("sensor1");
+    
+  } else if (digitalRead(SENSOR2) == LOW)
+  {
+    state = LOW;
+    direct = HIGH;
+    Serial.println("sensor2");
+  }else{
+    state = HIGH;
+  }
+  if (digitalRead(BUTTON) == HIGH) {
+    direct = LOW;
+    Serial.println("BUTTON ON");
+    
+  } else {
+    direct = HIGH;
+    Serial.println("BUTTON OFF");
+  }
+
+  if (state == LOW){
+      delayMicroseconds(500000000);
+      Serial.println("stopping");
+  }
+    digitalWrite(SIGN, direct);
+    for (int i = 0 ; i <= 10; i++) {
+      digitalWrite(PULS, HIGH);
+      delayMicroseconds(2500);
+      digitalWrite(PULS, LOW);
+      delayMicroseconds(2500);
+    } 
+}
